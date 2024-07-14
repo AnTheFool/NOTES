@@ -71,7 +71,7 @@ void partition(int arr[], int l, int h, int p)
 
 ## **Implementation**
 
-```cpp
+```cpp  
 int iPartition(int arr[], int l, int h)
 {   
     int pivot=arr[h];
