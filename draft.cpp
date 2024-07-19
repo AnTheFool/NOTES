@@ -1,38 +1,27 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-vector<int> findleader(int arr[], int n) { 
-	vector<int> leaders;
-	int rightleader = arr [n-1];
-	leaders.push_back(rightleader);
-	
-	
-	for (int i = n-2; i >= 0; i--){
-		if(arr[i] >= rightleader){
-			rightleader = arr[i];
-			leaders.push_back(rightleader);
-		}
-	}
-	// print leaders in the correct order -> vector -> i--
-	for (int i = leaders.size() - 1; i >= 0; i--){
-		cout << leaders[i] << " ";
-	}
-	return leaders;
-}
 int main(){
-	int n;
-	cout << "n= ";
-	cin >> n;
-	
-	int arr[n];
-	cout << "arr[]=  ";
-	for (int i = 0; i < n; i++){
-		cin >> arr[i];
-	}
-	
-	cout << "Output: ";
-	findleader(arr, n);
-	
-	return 0;
+    int n; cin >> n;
+    int a[n]; // Mảng tĩnh
+    vector<int> stat; // Mảng động
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    for (int i = 0; i < n; i++)
+        cin >> stat[i];
+    // Linked list
+    string s;
+    // Stack 
+    stack<int> st;
+    // Queue
+    queue<int> q;
+    // Deque
+    deque<int> dq;
+    // Binary tree, BST (Binary search tree), map, pair, tuple, priority queue
+    // Disjoint set
+    // Graph --> BFS, DFS, Djikstra
+    // Greedy, DP
+    // Bitmask, Modulo, Catalan, v.v...
+    // Recursion --> Backtracking
+    // Divide and conquer (quicksort), Heap, Fenwick tree
 }

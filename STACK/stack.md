@@ -181,7 +181,78 @@ void printSpan(int arr[],int n){
 
 # **LARGEST RECTANGULAR AREA IN A HISTOGRAM**
 
+## Problem statement
 
+Find the largest rectangular area possible in a given histogram where the largest rectangle can be made of a number of contiguous bars. Each bar is of width one 
+
+For example:
+
+```
+Input: hist = [6, 2, 5, 4, 5, 1, 6]
+Output: 12
+```
+![alt text](image-3.png)
+
+```
+Input: hist = [2, 1, 5, 6, 2, 3]
+Output: 10
+```
+![alt text](image-4.png)
+
+## Idea and solution
+
+- Create an empty stack
+
+- Start from first bar, and do the following for every bar `hist[i]` where `i` varies from 0 to n - 1
+    * If `stack.empty()` or `hist[i] > hist[stack.top()]` then push `i` to the stack
+    * If this `hist[i] < hist[stack.top()]`, then keep removing the `stack.top()` while top of the stack is integer. Let the removed bar be `hist[tp]`. Calculate area of rectangle with `hist[tp]` as smallest bar. For `hist[tp]`, the left index is previous (previous to tp) item in stack and right index is `i` (current index)
+- If stack is not empty, then one by one remove all bars from stack and do step 2b for every removed bar.
+
+### CPP
+
+```cpp
+int getMaxArea(int hist[], int n){
+    stack<int> s;
+    int max_area = 0, tp, area_with_top;
+    int i = 0;
+    while (i < n){
+        if (s.empty() || hist[s.top()] <= hist[i])
+            s.push(i++);
+        else{
+            tp = s.top()
+            s.pop();
+            area_with_top = hist[tp] * (s.empty() ? i : i - s.top() - 1);
+            max_area = max(max_area, area_with_top);
+        }
+    }
+    while (!s.empty()){
+        tp = s.top(); s.pop();
+        area_with_top = hist[tp] * (s.empty() ? i : i - s.top() - 1);
+        max_area = max(max_area, area_with_top);
+    }
+    return max_area;
+}
+```
+
+### Python
+
+```py
+def largest_rectangle_area(heights):
+    maxArea = 0
+    stack = [] # Pair: (index, height)
+
+    for i, h in enumerate(heights):
+        start = i
+        while stack and stack[-1][1] > h:
+            index, height = stack.pop()
+            maxArea = max(maxArea, height * (i - index))
+            start = index
+        stack.append((start, h))
+
+    for i, h in stack:
+        maxArea = max(maxArea, h * (len(heights) - i))
+    return maxArea
+```
 
 # **MAXIMUM AREA RECTANGLE FULL OF 1'S**
 
