@@ -24,9 +24,9 @@ A binaryy string, with the given constraints, would end with:
 2. 01 or 10
 
 Recursive function: 
-$\begin{gather}
+
+$
 \text{count}(n) = \text{count}(n - 1) + \text{count}(n - 2)
-\end{gather}
 \\ \text{with} \space \space \text{count}(1) = 2, \space \text{count}(2) = 3
 $
 
