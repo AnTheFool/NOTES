@@ -104,7 +104,7 @@ $
 4. **Fibonacci number can be written in matrix form**: 
 
 $ A = 
-\begin{gather}
+\begin{align}
 \begin{bmatrix}
 1 & 1 \\ 1 & 0
 \end{bmatrix}
@@ -113,29 +113,29 @@ A^n =
 \begin{bmatrix}
 F_{n + 1} & F_n \\ F_n & F_{n - 1}
 \end{bmatrix}
-\end{gather}
+\end{align}
 $
 
 5. **Cassini's identity**
 
 $
-\begin{gather}
+\begin{align}
 F_{n + 1}\times{F_{n - 1}} - F_n^2 = (-1)^n
-\end{gather}
+\end{align}
 $
 
 6. **Additional rule**
 
 $
-\begin{gather}
+\begin{align}
 F_{m + n} = F_m F_{n + 1} + F_n F_{m - 1}
-\end{gather}
+\end{align}
 $
 
 Thus,
-$\begin{gather}
+$\begin{align}
 A^{m+n} = A^m \times A^n
-\end{gather}
+\end{align}
 $
 
 7. For every positive integer m, $F_{mn}$ is a multiple of $F_n$
@@ -144,17 +144,17 @@ $
 
 9. We have: 
 
-$ \begin{gather}
+$ \begin{align}
 \text{GCD}\left(F_m, F_n\right) = F\left(\text{GCD}\left(m, n\right)\right)
-\end{gather}
+\end{align}
 $
 
 10. If $F_n$ is a multiple of $F_m$ then $n$ is a multiple of $m$. In other words:
 
 $
-\begin{gather}
+\begin{align}
 F_n = a\times F_m \Longleftrightarrow n = a \times m
-\end{gather}
+\end{align}
 $
 
 ## ***Related problems***
