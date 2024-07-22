@@ -25,10 +25,10 @@ A binaryy string, with the given constraints, would end with:
 
 Recursive function: 
 
-$
+$$
 \text{count}(n) = \text{count}(n - 1) + \text{count}(n - 2)
 \\ \text{with} \space \space \text{count}(1) = 2, \space \text{count}(2) = 3
-$
+$$
 
 **Solution (using dynamic programming)**
 

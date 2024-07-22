@@ -33,7 +33,7 @@ We can easily observe that the number of 2s in prime factors is always more than
 
 Following is the summarized formula for counting trailing 0s:
 
-$\text{Trailing 0s in n!} = \text{Count of 5s in prime factors of n!} = \text{floor}(\frac{n}{5}) + \text{floor}(\frac{n}{25}) + \text{floor}(\frac{n}{125}) + \ldots$
+$$\text{Trailing 0s in n!} = \text{Count of 5s in prime factors of n!} = \text{floor}(\frac{n}{5}) + \text{floor}(\frac{n}{25}) + \text{floor}(\frac{n}{125}) + \ldots$$
 
 ### **Implementation for efficient solution**
 
@@ -63,17 +63,17 @@ Illustration:
 
 First find the prime factor of 15 that are 3  and 5 then first divide with 3 and add i.e. Applying Legendre’s formula for prime factor 3.
 
-$[146/3]+[48/3]+[16/3]+[5/3]+[1/3] = 70$
+$$[146/3]+[48/3]+[16/3]+[5/3]+[1/3] = 70$$
 
-$\Longleftrightarrow   48  +   16  +  5  +  1  +  0   = 70$
+$$\Longleftrightarrow   48  +   16  +  5  +  1  +  0   = 70$$
 
 There is 70 is maximum power of 3 prime number. 146! is divisible by 3^70 which is maximum. 
 
 Applying Legendre’s formula for prime factor 5.
 
-$[146/5]+[29/5]+[5/5]+[1/5] = 35$
+$$[146/5]+[29/5]+[5/5]+[1/5] = 35$$
 
-$\Longleftrightarrow   29  +   5  +  1  +  0   = 35$
+$$\Longleftrightarrow   29  +   5  +  1  +  0   = 35$$
 
 There is 35 is maximum power of 5 prime number. Minimum of two powers is 35 which is our answer.
 
@@ -95,15 +95,15 @@ Read more [the cpp file here](/NUMBER%20THEORY/maximum_power_dividing_factorial.
 
 2. Binet's formula:. It is used to find the Nth term in the Fibonacci sequence.
 
-$
+$$
 F_n = \frac{\left(\frac{1+\sqrt{5}}{2}\right)^N + \left(\frac{1-\sqrt{5}}{2}\right)^N}{2}
-$
+$$
 
 3. **Fibonacci is a complete sequence (like powers of  2)**: The Fibonacci sequence is a complete sequence in the sense that it contains every positive integer exactly once, as a sum of some of its terms. This is because every positive integer can be expressed as a sum of non-consecutive Fibonacci numbers in a unique way.
 
 4. **Fibonacci number can be written in matrix form**: 
 
-$ A = 
+$$ A = 
 \begin{bmatrix}
 1 & 1 \\ 1 & 0
 \end{bmatrix}
@@ -112,24 +112,24 @@ A^n =
 \begin{bmatrix}
 F_{n + 1} & F_n \\ F_n & F_{n - 1}
 \end{bmatrix}
-$
+$$
 
 5. **Cassini's identity**
 
-$
+$$
 F_{n + 1}\times{F_{n - 1}} - F_n^2 = (-1)^n
-$
+$$
 
 6. **Additional rule**
 
-$
+$$
 F_{m + n} = F_m F_{n + 1} + F_n F_{m - 1}
-$
+$$
 
 Thus,
-$
+$$
 A^{m+n} = A^m \times A^n
-$
+$$
 
 7. For every positive integer m, $F_{mn}$ is a multiple of $F_n$
 
@@ -137,15 +137,15 @@ $
 
 9. We have: 
 
-$ 
+$$
 \text{GCD}\left(F_m, F_n\right) = F\left(\text{GCD}\left(m, n\right)\right)
-$
+$$
 
 10. If $F_n$ is a multiple of $F_m$ then $n$ is a multiple of $m$. In other words:
 
-$
+$$
 F_n = a\times F_m \Longleftrightarrow n = a \times m
-$
+$$
 
 ## ***Related problems***
 
