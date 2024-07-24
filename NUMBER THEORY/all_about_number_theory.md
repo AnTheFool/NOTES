@@ -147,6 +147,161 @@ $$
 F_n = a\times F_m \Longleftrightarrow n = a \times m
 $$
 
+## ***Implementation***
+
+### **Recursive take**
+
+```cpp
+int fibo(int n){
+    if (n <= 1)
+        return n;
+    else
+        return fib(n - 1) + fib(n - 2);
+}
+```
+
+Time complexity: $O(2^n)$
+
+### **Dynamic programming take**
+
+```cpp
+int fibo(int n){
+    if (n <= 1)
+        return n;
+    int a = 0, b = 1, c;
+    for (int i = 2; i <= n; i++){
+        c = a + b; a = b; b = c;
+    }
+    return c;
+}
+```
+
+Time complexity: $O(n)$
+
 ## ***Related problems***
 
 - [Count binary strings with no two consecutive 1s](/NUMBER%20THEORY/count_binary_strings.md)
+
+# **PRIME NUMBERS**
+
+## ***Sieve Eratosthenes***
+
+```cpp
+void SieveOfEratosthenes(int n)
+{
+	// Create a boolean array "prime[0..n]" and initialize
+	// all entries it as true. A value in prime[i] will
+	// finally be false if i is Not a prime, else true.
+	bool prime[n + 1];
+	memset(prime, true, sizeof(prime));
+
+	for (int p = 2; p * p <= n; p++) {
+		// If prime[p] is not changed, then it is a prime
+		if (prime[p] == true) {
+			// Update all multiples of p greater than or
+			// equal to the square of it numbers which are
+			// multiple of p and are less than p^2 are
+			// already been marked.
+			for (int i = p * p; i <= n; i += p)
+				prime[i] = false;
+		}
+	}
+}
+```
+
+## ***Segmented sieve***
+
+A space specifically used for these cases:
+
+- n is very large (say 10^9)
+
+- We have a range [low, high] as input and high is very large (say 10^9)
+
+### Problem
+
+Given `low` and `high`, print all prime numbers in the range `[low, high]`
+
+For example:
+```
+Input: l = 2, h = 10
+Output: 2 3 5 7
+```
+
+```
+Input: l = 6, h = 10
+Output: 7
+```
+
+Constraints: $0 \leq l, h \leq 10^9$
+
+### Idea for segmented sieve
+
+Take the case `l = 6, h = 10`
+
+1. Generate all prime numbers from 0 to $\text{floor}\left(\sqrt{h}\right)$. In this case, $\text{floor}\left(\sqrt{h}\right) = 3$
+
+--> primes[] = [2, 3]
+
+Time complexity: $O(\sqrt{h}\log{\log{h}})$
+Space complexity: $O(\sqrt{h})$
+
+2. Create an array of size $h - l + 1$, i.e. $(10 - 6 + 1) = 5$
+
+isPrime[] = [T, T, T, T, T] (stands for [6, 7, 8, 9, 10])
+
+3. Mark multiples of primes[] = {2, 3} in isPrime[]
+
+isPrime[] = [F, T, F, F, F] (stands for [6, 7, 8, 9, 10])
+
+Time complexity: $O((h - l + 1)\log{h})$
+
+Overall, this algorithm takes $h\log{\log{h}}$ time and $\theta{(h)}$
+
+### Implementation
+
+```cpp
+// C++ implementation of segmented sieve
+#include<bits/stdc++.h>
+using namespace std;
+vector<long long>prime;
+// function to store primes <= n
+void sieve(long long n)
+{
+    vector<bool>isPrime(n+1,true);
+    for(long long i=2;i<=n;i++)
+    {
+        if(isPrime[i])
+        {
+            prime.push_back(i);
+            for(long long j=i*i;j<=n;j++)
+            isPrime[j]=false;
+        }
+    }
+}
+// function to find primes in range [l...h] using sieve and optimizations
+void segSieve(long long l, long long h)
+{
+    long long sq=sqrt(h);
+    sieve(sq);
+    vector<bool>isPrime(h-l+1,true);
+    for(long long p:prime)
+    {
+        long long sm=(l/p)*p; // Find the smallest multiple of p greater than l
+        if(sm<l)
+        sm+=p;
+        for(long long m=sm;m<=h;m+=p)
+        isPrime[m-l]=false;
+    }
+    for(long long i=l;i<=h;i++)
+    {
+        if(isPrime[i-l]==true)
+        cout<<i<<" ";
+    }
+}
+// Driver function
+int main() {
+	long long l=5,h=9;
+	segSieve(l,h);
+	return 0;
+}
+```
