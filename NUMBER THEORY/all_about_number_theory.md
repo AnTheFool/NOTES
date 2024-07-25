@@ -184,6 +184,8 @@ Time complexity: $O(n)$
 
 - [Sum of n Fibonacci numbers](/sum_fibonacci.md)
 
+- [Squared sum of n Fibonacci numbers](/NUMBER%20THEORY/sum_square_fibonacci.md)
+
 # **PRIME NUMBERS**
 
 ## ***Sieve Eratosthenes***
