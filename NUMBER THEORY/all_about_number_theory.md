@@ -182,6 +182,8 @@ Time complexity: $O(n)$
 
 - [Count binary strings with no two consecutive 1s](/NUMBER%20THEORY/count_binary_strings.md)
 
+- [Sum of n Fibonacci numbers](/sum_fibonacci.md)
+
 # **PRIME NUMBERS**
 
 ## ***Sieve Eratosthenes***
