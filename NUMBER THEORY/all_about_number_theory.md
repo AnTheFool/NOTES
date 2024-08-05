@@ -309,3 +309,71 @@ int main() {
 	return 0;
 }
 ```
+
+# **MATHEMATICAL PRINCIPLES**
+
+## ***DERANGEMENTS***
+
+A Derangement is a permutation of n elements, such that no element appears in its original position. For example, a derangement of {0, 1, 2, 3} is {2, 3, 1, 0}.
+
+Given a number n, find the total number of Derangements of a set of n elements.
+
+### **Examples:**
+```
+Input: n = 2
+Output: 1
+For two elements say {0, 1}, there is only one possible derangement {1, 0}
+
+Input: n = 3
+Output: 2
+For three elements say {0, 1, 2}, there are two possible derangements {2, 0, 1} and {1, 2, 0}
+
+Input: n = 4
+Output: 9
+For four elements say {0, 1, 2, 3}, there are 9 possible derangements {1, 0, 3, 2}, {1, 2, 3, 0} {1, 3, 0, 2}, {2, 3, 0, 1}, {2, 0, 3, 1}, {2, 3, 1, 0}, {3, 0, 1, 2}, {3, 2, 0, 1} and {3, 2, 1, 0}
+```
+
+### Derangement recursive formula
+
+$$
+\text{dCount}(n) = (n - 1)\left(\text{dCount}(n - 2) + \text{dCount}(n - 1)\right) \\ \text{with} \space \space \text{dCount}(1) = 0, \space \space \text{dCount}(2) = 1
+$$
+
+### Implementation
+
+```cpp
+#include <iostream>
+using namespace std;
+ 
+int countDer(int n)
+{
+ 
+    // base case
+    if (n == 1 or n == 2) {
+        return n - 1;
+    }
+ 
+    // Variable for just storing
+    // previous values
+    int a = 0;
+    int b = 1;
+ 
+    // using above recursive formula
+    for (int i = 3; i <= n; ++i) {
+        int cur = (i - 1) * (a + b);
+        a = b;
+        b = cur;
+    }
+ 
+    // Return result for n
+    return b;
+}
+ 
+// Driver Code
+int main()
+{
+ 
+    cout << "Count of Derangements is " << countDer(4);
+    return 0;
+}
+```

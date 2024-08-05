@@ -351,3 +351,184 @@ int main() {
     return 0;
 }
 ```
+
+# **TRAP WATER RAINFALL**
+
+Given an array of N non-negative integers arr[] representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+
+### **Example:**
+```
+Input: arr = [2, 0, 2]
+Output: 2
+Explanation: The structure is like below.
+We can trap 2 units of water in the middle gap.
+```
+![alt text](image-5.png)
+
+```
+Input: arr[]   = {3, 0, 2, 0, 4}
+Output: 7
+Explanation: Structure is like below.
+We can trap "3 units" of water between 3 and 2,
+"1 unit" on top of bar 2 and "3 units" between 2 and 4.
+```
+![alt text](image-6.png)
+
+## **Idea and solution**
+We can use a stack to track the bars that are bounded by the longer left and right bar. This can be done using only one interation using STACK.
+
+Approach:
+1. Loop through the indices of the bar array
+
+2. For each bar:
+
+- While the stack is not empty and the current bar has a height greater than the top bar of the stack
+
+- Store the index of the top bar in `pop_height` and pop it from the stack
+
+- Find the distance between the left bar (current top) of the top bar and the current bar
+
+- Find the minimum height between the top bar and the current bar.
+
+- The maximum water that can be trapped in `distance`
+
+- `Water trapped = distance * (min(hl, hr) - pop_height)`
+
+- Add that to the `fans`
+
+- Push `i` to the stack.
+
+3. Final answer will be `fans`
+
+## **Illustration**
+
+Consider the array arr[] = {3, 0, 2, 0, 4} and an empty stack st.
+
+For i = 0:
+
+=> The stack is empty. So no elements with higher value on left.
+
+=> Push the index into the stack. st = {0} [to keep track of the distance in between]
+
+For i = 1:
+
+=> arr[1] is less than arr[stack top]. So arr[1] has a higher left bound.
+
+=> Push the index into stack. st = {0, 1}
+
+For i = 2:
+
+=> arr[2] is greater than arr[stack top]. So arr[2] is the higher right bound of current stack top.
+
+=> Calculate the water stored in between the left and right bound of the stack top. 
+
+=> The stack top is the base height in between the left and right bound.
+        
+=> Pop the stack top. So st = {0}.
+
+=> Water stored in between when arr[0] and arr[2] are the bound= {min(arr[0], arr[2]) - arr[1]} * (2 - 0 - 1) = 2.
+
+=> arr[0] is greater than arr[2] Push the index into stack. st = {0, 2}.
+
+=> Total water stored = 0 + 2 = 2.
+
+For i = 3:
+
+=> arr[3] is less than arr[2]. So arr[3] has a higher left bound.
+
+=> Push the index into the stack. st = {0, 2, 3}.
+
+For i = 4:
+        
+=> arr[4] is greater than arr[stack top]. So arr[4] is the higher right bound of current stack top.
+
+=> Calculate the water stored in same way as for i = 2. The base height is arr[3].
+
+=> Pop the stack top. So st = {0, 2}.
+
+=> Water stored in between when arr[4] and arr[2] are the bound= {min(arr[4], arr[2]) - arr[3]} * (4 - 2 - 1) = 2.
+
+=> arr[4] is greater than arr[2].
+
+=> Pop the stack. st = {0}.
+
+=> Water stored in between arr[0] and arr[4] when arr[2] is the base height = {min(3, 4) - 2} * (4 - 0 - 1) = 3
+
+=> arr[0] less than arr[4]. So pop stack. st = {}.
+
+=> As no element left in the stack push the index. st = {4}.
+
+=> Total water stored = 2 + 2 + 3 = 7.
+
+So the total amount of water stored  = 7.
+
+## **Implementation**
+
+```cpp
+// C++ implementation of the approach
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to return the maximum
+// water that can be stored
+int maxWater(int height[], int n)
+{
+
+    // Stores the indices of the bars
+    stack<int> st;
+
+    // Stores the final result
+    int ans = 0;
+
+    // Loop through the each bar
+    for (int i = 0; i < n; i++) {
+
+        // Remove bars from the stack
+        // until the condition holds
+        while ((!st.empty())
+               && (height[st.top()] < height[i])) {
+
+            // Store the height of the top
+            // and pop it.
+            int pop_height = height[st.top()];
+            st.pop();
+
+            // If the stack does not have any
+            // bars or the popped bar
+            // has no left boundary
+            if (st.empty())
+                break;
+
+            // Get the distance between the
+            // left and right boundary of
+            // popped bar
+            int distance = i - st.top() - 1;
+
+            // Calculate the min. height
+            int min_height
+                = min(height[st.top()], height[i])
+                  - pop_height;
+
+            ans += distance * min_height;
+        }
+
+        // If the stack is either empty or
+        // height of the current bar is less than
+        // or equal to the top bar of stack
+        st.push(i);
+    }
+    return ans;
+}
+
+// Driver code
+int main()
+{
+
+    int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    cout << maxWater(arr, n);
+
+    return 0;
+}
+```

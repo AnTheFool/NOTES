@@ -1,27 +1,17 @@
 #include <bits/stdc++.h>
+#define ll long long
 using namespace std;
 
 int main(){
-    int n; cin >> n;
-    int a[n]; // Mảng tĩnh
-    vector<int> stat; // Mảng động
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
-    for (int i = 0; i < n; i++)
-        cin >> stat[i];
-    // Linked list
-    string s;
-    // Stack 
-    stack<int> st;
-    // Queue
-    queue<int> q;
-    // Deque
-    deque<int> dq;
-    // Binary tree, BST (Binary search tree), map, pair, tuple, priority queue
-    // Disjoint set
-    // Graph --> BFS, DFS, Djikstra
-    // Greedy, DP
-    // Bitmask, Modulo, Catalan, v.v...
-    // Recursion --> Backtracking
-    // Divide and conquer (quicksort), Heap, Fenwick tree
+    ll u, v; cin >> u >> v;
+    ll sq = u * u + v * v;
+    if (sq % 4 == 0)
+        cout << sq / 4 << ".00";
+    else if (sq % 4 == 1)
+        cout << sq / 4 << ".25";
+    else if (sq % 4 == 2)
+        cout << sq / 4 << ".50";
+    else
+        cout << sq / 4 << "/75";
+    return 0;
 }

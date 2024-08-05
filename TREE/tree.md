@@ -75,6 +75,156 @@ Node *root = NULL;
 
 > **Breadth First Search (BFS)** 
 
+Level order traversal is another type of traversal in a binary tree. In level order traversal, we visit all nodes at the same level before moving on to the next level. This traversal starts at the root node and visits its left and right children, then visits the left and right children of the first level nodes, and so on. We can use a queue data structure to implement level order traversal.
+
+Level order traversal is also known as breadth-first traversal because we visit nodes breadth-wise from left to right across each level of the tree.
+
+**Implementation**
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node  
+{ 
+  int key; 
+  struct Node *left; 
+  struct Node *right; 
+  Node(int k){
+      key=k;
+      left=right=NULL;
+  }
+};
+
+void printLevel(Node *root){
+    if(root==NULL)return;
+    queue<Node *>q;
+    q.push(root);
+    while(q.empty()==false){
+        Node *curr=q.front();
+        q.pop();
+        cout<<curr->key<<" ";
+        if(curr->left!=NULL)
+            q.push(curr->left);
+        if(curr->right!=NULL)
+            q.push(curr->right);
+    }
+}  
+
+int main() {
+	
+	Node *root=new Node(10);
+	root->left=new Node(20);
+	root->right=new Node(30);
+	root->left->left=new Node(40);
+	root->left->right=new Node(50);
+	root->right->left=new Node(60);
+	root->right->right=new Node(70);
+	
+	printLevel(root);
+}
+```
+
+**BFS Line by Line**
+
+For each node, first, the node is visited and then it’s child nodes are put in a FIFO queue. Then again the first node is popped out and then it’s child nodes are put in a FIFO queue and repeat until queue becomes empty.
+
+Follow the below steps to Implement the above idea:
+
+- Create an empty queue q and push root in q.
+- Run a While loop until q is not empty. 
+    * Initialize temp_node = q.front() and print temp_node->data.
+    * Push temp_node’s children i.e. temp_node -> left then temp_node -> right to q
+    * Pop front node from q.
+
+```cpp
+void levelOrderTraversal(Node* root) {
+    if (root == NULL) {
+        return;
+    }
+    queue<Node*> q;
+    q.push(root);
+    while (!q.empty()) {
+        Node* node = q.front();
+        q.pop();
+        cout << node->data << " ";
+        if (node->left) {
+            q.push(node->left);
+        }
+        if (node->right) {
+            q.push(node->right);
+        }
+    }
+}
+
+Node* createNode(int data) {
+    Node* newNode = new Node();
+    newNode->data = data;
+    newNode->left = newNode->right = NULL;
+    return newNode;
+}
+```
+
+Another method:
+Here's the step-by-step approach of the level order traversal implemented in the given code:
+
+- First, we create a printLevel function that takes the root node of the binary tree as its argument.
+- Inside the printLevel function, we initialize a queue named q of type Node*. We push the root node into this queue using the push() method.
+- Next, we start a while loop that will continue until the queue becomes empty.
+- Inside the while loop, we use a for loop to iterate over all the nodes present at the current level of the binary tree. The count variable keeps track of the number of nodes present at the current level.
+- In each iteration of the for loop, we dequeue the first node from the queue and assign it to a temporary pointer variable curr.
+- We print the value of the key of the current node.
+- Next, we check if the left child of the current node exists or not. If it exists, we push it into the queue using the push() method.
+- Similarly, we check if the right child of the current node exists or not, and if it does, we push it into the queue using the push() method.
+- After processing all the nodes at the current level, we print a new line character \n to move to the next level of the binary tree.
+- The while loop continues until the queue becomes empty, which means we have traversed all the nodes of the binary tree.
+- Finally, we create a main() function in which we create a binary tree by adding nodes and pass the root node of this binary tree to the printLevel function to perform level order traversal.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node  { 
+  int key; 
+  struct Node *left; 
+  struct Node *right; 
+  Node(int k){
+      key=k;
+      left=right=NULL;
+  }
+};
+
+void printLevel(Node *root){
+    if(root==NULL)return;
+    queue<Node *>q;
+    q.push(root);
+    while(q.empty()==false){
+        int count=q.size();
+        for(int i=0;i<count;i++){
+        Node *curr=q.front();
+        q.pop();
+        cout<<curr->key<<" ";
+        if(curr->left!=NULL)
+            q.push(curr->left);
+        if(curr->right!=NULL)
+            q.push(curr->right);
+        }
+        cout<<"\n";
+    }
+}  
+
+int main() {
+	
+	Node *root=new Node(10);
+	root->left=new Node(20);
+	root->right=new Node(30);
+	root->left->left=new Node(40);
+	root->left->right=new Node(50);
+	root->right->left=new Node(60);
+	root->right->right=new Node(70);
+	
+	printLevel(root);
+}
+```
 > **Depth First Search (DFS)**
 
 Main idea (using recursion):
@@ -178,3 +328,6 @@ int main() {
 	cout<<getSize(root);
 }
 ```
+
+## ***LCA of Binary tree***
+
