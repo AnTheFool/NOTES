@@ -87,4 +87,6 @@ Greedy algorithms may not always work, especially for finding the longest path.
 
 ## RELATED PROBLEMS
 
+- [Policeman and thieves](/GREEDY/policeman_and_thieves.md)
+
 - [Activity problems](/GREEDY/activity_problems.md). View solutions [here](/GREEDY/activity_problems.cpp)
