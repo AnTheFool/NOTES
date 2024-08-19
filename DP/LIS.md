@@ -320,3 +320,36 @@ View solutions [here](/DP/lis.cpp)
 
 # **VARIATIONS OF LIS**
 
+1. Minimum deletions to make an array sorted. 
+
+Cái này đơn giản là mình tìm dãy con tăng dài nhất, xong lấy độ dài mảng trừ độ dài dãy con tăng dài nhất --> ra được số lần xóa ít nhất
+
+2. Minimum sum increasing sequence
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int MSIS(int arr[], int n)
+{
+	int msis[n];
+	for(int i=0; i<n; i++){
+		msis[i]  = arr[i];
+		for(int j=0; j<i; j++){
+			if(arr[j] < arr[i])
+				msis[i] = max(msis[i], arr[i] + msis[j]);
+		}
+	}
+	int res = msis[0];
+	for(int i=0; i<n; i++)
+		res = max(res, msis[i]);
+	return res;
+}
+
+int main() {
+	int n = 3;
+	int arr[] = {5, 10, 20};
+	cout<<MSIS(arr, n);
+	return 0;
+}
+```

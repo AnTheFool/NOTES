@@ -197,3 +197,183 @@ int main()
 8. Broadcasting
 
 # ***DFS (Depth-First search)***
+
+
+
+The Depth-First Traversal or the DFS traversal of a Graph is used to traverse a graph depth wise. That is, it in this traversal method, we start traversing the graph from a node and keep on going in the same direction as far as possible. When no nodes are left to be traversed along the current path, backtrack to find a new possible path and repeat this process until all of the nodes are visited.
+
+We can implement the DFS traversal algorithm using a recursive approach. While performing the DFS traversal the graph may contain a cycle and the same node can be visited again, so in order to avoid this we can keep track of visited array using an auxiliary array. On each step of the recursion mark, the current vertex visited and call the recursive function again for all the adjacent vertices.
+
+## Code for DFS
+
+```cpp
+#include<bits/stdc++.h> 
+using namespace std; 
+
+void DFSRec(vector<int> adj[], int s, bool visited[]) 
+{ 	
+    visited[s]=true;
+    cout<< s <<" ";
+    
+    for(int u:adj[s]){
+        if(visited[u]==false)
+            DFSRec(adj,u,visited);
+    }
+}
+
+void DFS(vector<int> adj[], int V, int s){
+    bool visited[V]; 
+	for(int i = 0;i<V; i++) 
+		visited[i] = false;
+		
+    DFSRec(adj,s,visited);
+}
+
+void addEdge(vector<int> adj[], int u, int v){
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+int main() 
+{ 
+	int V=5;
+	vector<int> adj[V];
+	addEdge(adj,0,1); 
+	addEdge(adj,0,2); 
+	addEdge(adj,2,3); 
+	addEdge(adj,1,3); 
+	addEdge(adj,1,4);
+	addEdge(adj,3,4);
+
+	cout << "Following is Depth First Traversal: "<< endl; 
+	DFS(adj,V,0); 
+
+	return 0; 
+} 
+```
+
+## Code DFS for disconnected graphs
+
+```cpp
+#include<bits/stdc++.h> 
+using namespace std; 
+
+void DFSRec(vector<int> adj[], int s, bool visited[]) 
+{ 	
+    visited[s]=true;
+    cout<< s <<" ";
+    
+    for(int u:adj[s]){
+        if(visited[u]==false)
+            DFSRec(adj,u,visited);
+    }
+}
+
+void DFS(vector<int> adj[], int V){
+    bool visited[V]; 
+	for(int i = 0;i<V; i++) 
+		visited[i] = false;
+		
+    for(int i=0;i<V;i++){
+        if(visited[i]==false)
+            DFSRec(adj,i,visited);
+    }
+}
+
+void addEdge(vector<int> adj[], int u, int v){
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+int main() 
+{ 
+	int V=5;
+	vector<int> adj[V];
+	addEdge(adj,0,1); 
+	addEdge(adj,0,2); 
+	addEdge(adj,1,2);
+	addEdge(adj,3,4);
+
+	cout << "Following is Depth First Traversal for disconnected graphs: "<< endl; 
+	DFS(adj,V); 
+
+	return 0; 
+} 
+```
+
+## Code for counting components in an undirected graph
+
+```cpp
+#include<bits/stdc++.h> 
+using namespace std; 
+
+void DFSRec(vector<int> adj[], int s, bool visited[]) 
+{ 	
+    visited[s]=true;
+    
+    for(int u:adj[s]){
+        if(visited[u]==false)
+            DFSRec(adj,u,visited);
+    }
+}
+
+int DFS(vector<int> adj[], int V){
+    int count=0;
+    bool visited[V]; 
+	for(int i = 0;i<V; i++) 
+		visited[i] = false;
+		
+    for(int i=0;i<V;i++){
+        if(visited[i]==false)
+            {DFSRec(adj,i,visited);count++;}
+    }
+    return count;
+}
+
+void addEdge(vector<int> adj[], int u, int v){
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+int main() 
+{ 
+	int V=5;
+	vector<int> adj[V];
+	addEdge(adj,0,1); 
+	addEdge(adj,0,2); 
+	addEdge(adj,1,2);
+	addEdge(adj,3,4);
+
+	cout << "Number of connected components: "<< DFS(adj,V); 
+
+	return 0; 
+} 
+```
+
+## Applications with DFS
+
+1. Detecting cycle in a graph 
+A graph has cycle if and only if we see a back edge during DFS. So we can run DFS for the graph and check for back edges. (See [this](/https://people.csail.mit.edu/thies/6.046-web/recitation9.txt) for details) 
+
+2. Path Finding 
+We can specialize the DFS algorithm to find a path between two given vertices u and z.
+
+i. Call DFS(G, u) with u as the start vertex. 
+
+ii. Use a stack S to keep track of the path between the start vertex and the current vertex. 
+
+iii. As soon as destination vertex z is encountered, return the path as the 
+contents of the stack 
+
+See [this]() for details. 
+
+3. [Topological Sorting](/https://www.geeksforgeeks.org/topological-sorting/)
+
+Topological Sorting is mainly used for scheduling jobs from the given dependencies among jobs. In computer science, applications of this type arise in instruction scheduling, ordering of formula cell evaluation when recomputing formula values in spreadsheets, logic synthesis, determining the order of compilation tasks to perform in makefiles, data serialization, and resolving symbol dependencies in linkers. 
+
+4. To test if a graph is [bipartite](/https://en.wikipedia.org/wiki/Bipartite_graph)
+We can augment either BFS or DFS when we first discover a new vertex, color it opposite its parents, and for each other edge, check it doesn’t link two vertices of the same color. The first vertex in any connected component can be red or black! See this for details. 
+
+5. Finding Strongly Connected Components of a graph A directed graph is called strongly connected if there is a path from each vertex in the graph to every other vertex. (See [this](/https://www.geeksforgeeks.org/strongly-connected-components/) for DFS-based algo for finding Strongly Connected Components) 
+
+6. Solving puzzles with only one solution, such as mazes. (DFS can be adapted to find all solutions to a maze by only including nodes on the current path in the visited set.) 
