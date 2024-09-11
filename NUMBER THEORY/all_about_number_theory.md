@@ -377,3 +377,21 @@ int main()
     return 0;
 }
 ```
+
+# **GCD VS LCM**
+
+## ***Extended Euclidean Algorithm***
+
+$$
+ax + by = \gcd{(a, b)}
+$$
+
+Theo định lý Bezout, luôn luôn tồn tại cặp số nguyên $x, y$ thỏa mãn phương trình trên.
+
+Ví dụ: 
+$$
+a = 12, b = 15 \Longrightarrow \gcd{(12, 15)} = 3 \\
+\Longrightarrow 12x + 15y = 3 \\ 
+\Longrightarrow x = -1,\space y = 1
+$$
+

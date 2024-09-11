@@ -87,3 +87,5 @@ int main() {
 ## [LONGEST COMMON SUBSEQUENCE](/DP/lcs.md)
 
 ## [LONGEST INCREASING SEQUENCE](/DP/LIS.md)
+
+## [KADANE'S ALGORITHM](/DP/Kadane_algo.md)

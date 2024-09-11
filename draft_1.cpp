@@ -1,33 +1,20 @@
 #include <bits/stdc++.h>
-typedef long long ll;
 using namespace std;
 
-//Sort two pairs of int by their second value
-bool cmp(const pair<int,int> a, const pair<int,int> b){
-    return a.second < b.second;
-}
-
-int main() {
-    //Take inputs
-    int n;
-    cin >> n;
-    vector<pair<int,int>> movies(n);
-    for (int i = 0; i < n; i++)
-        cin >> movies[i].first >> movies[i].second;
-
-    //Sort and then greedily take the movie that always end the earliest
-    sort(movies.begin(), movies.end(), cmp);
-    int ans = 0;
-    int curr = 0;
+int main(){
+    string s, t; cin >> s >> t;
+    int n = s.length();
+    map<char, int> dict_s, dict_t;
+    int ans = 0, track = 0;
     for (int i = 0; i < n; i++){
-        if (movies[i].first >= curr){
+        dict_s[s[i]]++;
+        dict_t[t[i]]++;
+        if (dict_s.size() == dict_t.size() && equal(dict_s.begin(), dict_s.end(), dict_t.begin())){
             ans++;
-            curr = movies[i].second;
+            dict_s.clear();
+            dict_t.clear();
         }
     }
-
-    //Output
     cout << ans;
-
     return 0;
 }

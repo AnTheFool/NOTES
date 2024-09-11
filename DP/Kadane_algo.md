@@ -24,16 +24,36 @@ Output: -9 -8 8 11 7
          11
 ```
 
+# IDEA
+
+- Let `dp[i]` be the maximum subarray sum ending with `arr[i]`.
+
+- Take `[2, 3, -7, 5, -1, 4, -3]` as an example.
+
+    - At `i = 0, dp[i] = 2`
+
+    - From `i = 1`, we have two options - that are:
+
+        - Continue the subarray ended at `i - j`.
+
+        - Start a new subarray.
+
+        - And then take the maximum sum between the two
+    
+    - In this case, if we continue the subarray, then the sum would be `5`. If we start a new subarray, then the sum would be `3`. Hence, the sum would be `5`.
+
+    - Continue to do so, we get `dp[] = [2, 5, -2, 5, 4, 8, 5]`
+
 # SOLUTION CODE
 
 ```cpp
-long long maximumSum(int arr[], int sizeOfArray)
+long long maximumSum(long long arr[], int sizeOfArray)
 {
     long long dp[sizeOfArray];
     dp[0] = arr[0];
     long long ans = dp[0];
     for (int i = 1; i < sizeOfArray; i++){
-        dp[i] = max(dp[i - 1] + (long long)arr[i], (long long)arr[i]);
+        dp[i] = max(dp[i - 1] + arr[i], arr[i]);
         ans = max(dp[i], ans);
     }
     for (int i = 0; i < sizeOfArray; i++)

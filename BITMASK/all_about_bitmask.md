@@ -7,3 +7,7 @@
 ## [CHECK KTH BIT IS SET OR NOT](/BITMASK/check_kth_bit.md)
 
 ## [POWER OF TWO](/BITMASK/all_about_bitmask.md)
+
+## [ONE ODD OCCURENCE](/BITMASK/one_odd_occuring.md)
+
+## [TWO ODD OCCURENCES](/BITMASK/two_odd_occurences.md)
