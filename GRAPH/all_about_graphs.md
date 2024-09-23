@@ -376,4 +376,180 @@ We can augment either BFS or DFS when we first discover a new vertex, color it o
 
 5. Finding Strongly Connected Components of a graph A directed graph is called strongly connected if there is a path from each vertex in the graph to every other vertex. (See [this](/https://www.geeksforgeeks.org/strongly-connected-components/) for DFS-based algo for finding Strongly Connected Components) 
 
-6. Solving puzzles with only one solution, such as mazes. (DFS can be adapted to find all solutions to a maze by only including nodes on the current path in the visited set.) 
+6. Solving puzzles with only one solution, such as mazes. (DFS can be adapted to find all solutions to a maze by only including nodes on the current path in the visited set.)
+
+## Lowest Common Ancestor of a binary tree
+
+![image](https://github.com/user-attachments/assets/a9917b61-74f9-45fc-839f-98c89f3009e5)
+
+Output: 30
+
+### Naive solution
+
+The naive solution to finding the LCA (Least Common Ancestor) of a binary tree using a two-path array approach involves storing the paths from the root to each of the nodes whose lowest common ancestor is to be computed. Once these paths are obtained, we can traverse the paths and find the last node that is common to both paths. This node will be the LCA of the given nodes.
+
+For example:
+
+![image](https://github.com/user-attachments/assets/45db29c8-a247-498a-8bd0-187d2dd4ee7b)
+
+Path from root to 5 = { 1, 2, 5 }
+Path from root to 6 = { 1, 3, 6 }
+
+We start checking from the 0 index. As both of the value matches (`pathA[0]` = `pathB[0]`), we move to the next index. `pathA[1]` is not equal to `pathB[1]`, there’s a mismatch so we consider the previous value. 
+
+Detailed steps:
+
+1. Find a path from the root to n1 and store it in a vector or array. 
+2. Find a path from the root to n2 and store it in another vector or array. 
+3. Traverse both paths till the values in arrays are the same. Return the common element just before the mismatch.
+
+### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+ 
+struct Node {
+    int key;
+    struct Node *left, *right;
+};
+ 
+Node* newNode(int k){
+    Node* temp = new Node;
+    temp->key = k;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+ 
+bool findPath(Node* root, vector<int>& path, int k){
+    if (root == NULL)
+        return false;
+ 
+    path.push_back(root->key);
+ 
+    if (root->key == k)
+        return true;
+ 
+    if ((root->left && findPath(root->left, path, k))
+        || (root->right && findPath(root->right, path, k)))
+        return true;
+ 
+    path.pop_back();
+    return false;
+}
+int findLCA(Node* root, int n1, int n2){
+    vector<int> path1, path2;
+ 
+    if (!findPath(root, path1, n1)
+        || !findPath(root, path2, n2))
+        return -1;
+
+    int i;
+    for (i = 0; i < path1.size() && i < path2.size(); i++)
+        if (path1[i] != path2[i])
+            break;
+    return path1[i - 1];
+}
+ 
+int main(){
+    Node* root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+    root->right->left = newNode(6);
+    root->right->right = newNode(7);
+    cout << "LCA(4, 5) = " << findLCA(root, 4, 5);
+    cout << "\nLCA(4, 6) = " << findLCA(root, 4, 6);
+    cout << "\nLCA(3, 4) = " << findLCA(root, 3, 4);
+    cout << "\nLCA(2, 4) = " << findLCA(root, 2, 4);
+    return 0;
+```
+
+## Efficient solution
+
+This solution would just need one traversal and $O(h)$ extra space for recursive traversal. Also, it assumes that both $n_1$ and $n_2$ exist in the tree. It will not give the correct answer when only $n_1$ or $n_2$ exist.
+
+### Idea
+
+The idea is to traverse the tree starting from the root. If any of the given keys (n1 and n2) matches with the root, then the root is LCA (assuming that both keys are present). If the root doesn't match with any of the keys, we recur for the left and right subtree. 
+
+- The node which has one key present in its left subtree and the other key present in the right subtree is the LCA. 
+- If both keys lie in the left subtree, then the left subtree has LCA also, 
+- Otherwise, LCA lies in the right subtree.
+
+### Illustration
+
+![image](https://github.com/user-attachments/assets/27085222-5fed-4503-a058-b197e96eff06)
+
+Find the LCA of 5 and 6
+
+**Root** is pointing to the node with value 1, as its value doesn't match with { 5, 6 }. We look for the key in left subtree and right subtree.
+
+- Left Subtree :
+	- New Root = { 2 } ≠ 5 or 6, hence we will continue our recursion
+	- New Root = { 4 } , it's left and right subtree is null, we will return NULL for this call
+ 	- New Root = { 5 } , value matches with 5 so will return the node with value 5
+	- The function call for root with value 2 will return a value of 5
+- Right Subtree :
+	- Root = { 3 } ≠ 5 or 6 hence we continue our recursion
+	- Root = { 6 } = 5 or 6 , we will return the this node with value 6 
+	- Root = { 7 } ≠ 5 or 6, we will return NULL
+	- So the function call for root with value 3 will return node with value 6
+- As both the left subtree and right subtree of the node with value 1 is not NULL, so 1 is the LCA
+
+### How to solve
+
+Follow the steps below to solve the problem:
+
+- We pass the root to a helper function and check if the value of the root matches any of n1 and n2. 
+	- If YES, return the root
+	- else recursive call on the left and right subtree
+- Basically, we do pre-order traversal, at first we check if the root->value matches with n1 or n2. Then traverse on the left and right subtree.
+- If there is any root that returns one NULL and another NON-NULL value, we shall return the corresponding NON-NULL value for that node.
+- The node that returns both NON-NULL values for both the left and right subtree, is our Lowest Common Ancestor.
+
+### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node  
+{ 
+  int key; 
+  struct Node *left; 
+  struct Node *right; 
+  Node(int k){
+      key=k;
+      left=right=NULL;
+  }
+};
+
+Node *lca(Node *root, int n1, int n2){
+    if(root==NULL)return NULL;
+    if(root->key==n1||root->key==n2)
+        return root;
+    
+    Node *lca1=lca(root->left,n1,n2);
+    Node *lca2=lca(root->right,n1,n2);
+    
+    if(lca1!=NULL && lca2!=NULL)
+        return root;
+    if(lca1!=NULL)
+        return lca1;
+    else
+        return lca2;
+}
+
+int main() {
+	
+	Node *root=new Node(10);
+	root->left=new Node(20);
+	root->right=new Node(30);
+	root->right->left=new Node(40);
+	root->right->right=new Node(50);
+	int n1=20,n2=50;
+	
+	Node *ans=lca(root,n1,n2);
+	cout<<"LCA: "<<ans->key;
+}
+```
